@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,6 +16,12 @@ public class AccesosTienda {
 	private String host = "";
 	private String bd = "";
 	private final String url = "jdbc:mysql://" + host + "/" + bd;
+	
+	public static ArrayList<Boolean>ListaBoleanos = new ArrayList<Boolean>();
+	public static ArrayList<Integer>ListaInteger = new ArrayList<Integer>();
+	public static ArrayList<Double>ListaDouble = new ArrayList<Double>();
+	public static ArrayList<Character>ListaCharacter = new ArrayList<Character>();
+	public static ArrayList<String>ListaString = new ArrayList<String>();
 
 	public AccesosTienda(String usuario, String clave, String host, String bd) {
 		super();
@@ -37,6 +42,7 @@ public class AccesosTienda {
 			ResultSetMetaData metaData= rs.getMetaData();
 			while(rs.next()) {
 				HashMap<String, Object>mapa = new HashMap<String, Object>();	
+				
 				for(int i = 1; i<=metaData.getColumnCount(); i++) {
 				mapa.put(metaData.getColumnName(i), rs.getObject(i));
 				}
@@ -54,18 +60,23 @@ public class AccesosTienda {
 	}
 
 	public void isAnInstanceOf(ArrayList<HashMap<String, Object>> lista) {
+		
 		for (int i = 0; i < lista.size(); i++) {
 			for (String key : lista.get(i).keySet()) {
 				Object objeto = lista.get(i).get(key);
 				if (objeto instanceof Boolean) {
-					
+					ListaBoleanos.add((Boolean) objeto);
 				} else if (objeto instanceof Integer) {
-
+					ListaInteger.add((Integer) objeto);
+				} else if (objeto instanceof Double) {
+					ListaDouble.add((Double) objeto);
+				} else if (objeto instanceof Character) {
+					ListaCharacter.add((Character) objeto);
 				} else if (objeto instanceof String) {
-
+					ListaString.add((String) objeto);
 				}
 			}
-		}
+		}	
 	}
 
 	public Connection getConnection() {
